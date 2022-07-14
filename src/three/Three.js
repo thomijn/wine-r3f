@@ -1,6 +1,11 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment, Float, Lightformer } from "@react-three/drei";
+import {
+  Environment,
+  Float,
+  Lightformer,
+  useDetectGPU,
+} from "@react-three/drei";
 import { LayerMaterial, Depth, Noise } from "lamina";
 import * as THREE from "three";
 import { useControls } from "leva";
@@ -18,21 +23,26 @@ export default function Three() {
           <Model scale={0.6} />
         </Float>
         <Bubbles />
+        <Effects />
       </Suspense>
-      {/* <Effects /> */}
     </Canvas>
   );
 }
 
 const Effects = () => {
+  const GPUTier = useDetectGPU();
+
+  console.log(GPUTier);
   return (
     <EffectComposer multisampling={0} disableNormalPass={true}>
-      <DepthOfField
-        focusDistance={0}
-        focalLength={0.08}
-        bokehScale={4}
-        height={480}
-      />
+      {GPUTier.tier > 1 && (
+        <DepthOfField
+          focusDistance={0}
+          focalLength={0.08}
+          bokehScale={4}
+          height={480}
+        />
+      )}
     </EffectComposer>
   );
 };

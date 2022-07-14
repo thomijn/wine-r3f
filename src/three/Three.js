@@ -30,19 +30,18 @@ export default function Three() {
 }
 
 const Effects = () => {
-  const GPUTier = useDetectGPU();
+  //   const GPUTier = useDetectGPU();
 
-  console.log(GPUTier);
   return (
     <EffectComposer multisampling={0} disableNormalPass={true}>
-      {GPUTier.tier > 1 && (
+      {/* {GPUTier.tier > 1 && (
         <DepthOfField
           focusDistance={0}
           focalLength={0.08}
           bokehScale={4}
           height={480}
         />
-      )}
+      )} */}
     </EffectComposer>
   );
 };

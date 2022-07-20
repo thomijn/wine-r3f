@@ -1,29 +1,37 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
+  AdaptiveDpr,
   Environment,
   Float,
   Lightformer,
-  useDetectGPU,
+  Stats,
 } from "@react-three/drei";
 import { LayerMaterial, Depth, Noise } from "lamina";
 import * as THREE from "three";
 import { useControls } from "leva";
-import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
+import { DepthOfField, EffectComposer } from "@react-three/postprocessing";
 
 import Model from "./Model";
 import Bubbles from "./Bubbles";
+import BigBubble from "./BigBubble";
+import RotateRing from "./RotateRing";
+import BackText from "./BackText";
 
 export default function Three() {
   return (
-    <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
+    <Canvas dpr={[1, 1]} camera={{ position: [0, 0, 4], fov: 50 }}>
       <Suspense fallback={null}>
+        <Stats />
         <EnvironmentMap />
         <Float speed={1.5} rotationIntensity={1} floatIntensity={1}>
           <Model scale={0.6} />
+          <RotateRing />
         </Float>
         <Bubbles />
-        <Effects />
+        <BigBubble />
+        <BackText />
+        {/* <Effects /> */}
       </Suspense>
     </Canvas>
   );
@@ -34,14 +42,12 @@ const Effects = () => {
 
   return (
     <EffectComposer multisampling={0} disableNormalPass={true}>
-      {/* {GPUTier.tier > 1 && (
-        <DepthOfField
-          focusDistance={0}
-          focalLength={0.08}
-          bokehScale={4}
-          height={480}
-        />
-      )} */}
+      <DepthOfField
+        focusDistance={0}
+        focalLength={0.08}
+        bokehScale={4}
+        height={480}
+      />
     </EffectComposer>
   );
 };

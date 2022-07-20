@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { motion, useAnimationControls } from "framer-motion";
 import { useStore } from "./store";
-
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 export const transition = { duration: 1.4, ease: [0.6, 0.01, -0.05, 0.9] };
+gsap.registerPlugin(ScrollTrigger);
 
 const variants = {
   initial: {
@@ -21,22 +23,33 @@ const variants = {
 
 const UI = () => {
   const { loading } = useStore();
-
+  const ref = useRef();
   const animationControls = useAnimationControls(variants);
 
   useEffect(() => {
     if (!loading) {
-      console.log("goo");
       animationControls.start("animate");
     }
   }, [loading]);
+
+  useEffect(() => {
+    gsap.to(ref.current, {
+      opacity: 0,
+      // ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: ".section-one",
+        start: 50,
+        toggleActions: "play none none reverse",
+      },
+    });
+  }, []);
 
   return (
     <>
       <TopBar>
         <h2>Great wines</h2>
       </TopBar>
-      <Wrapper>
+      <Wrapper ref={ref}>
         <motion.div>
           <div style={{ overflow: "hidden" }}>
             {"The Great".split("").map((letter, i) =>
@@ -112,7 +125,7 @@ const TopBar = styled.div`
   @media (max-width: 768px) {
     top: 32px;
     left: 32px;
-
+  }
 `;
 
 const Wrapper = styled.div`

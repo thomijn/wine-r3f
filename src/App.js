@@ -19,8 +19,6 @@ function App() {
           zIndex: 0,
           height: "100%",
           width: "100%",
-          // overflowX: "hidden",
-          // overflowY: "scroll",
         }}
       >
         <div
@@ -37,6 +35,28 @@ function App() {
         />
         <div
           className="section-two"
+          style={{
+            height: "100vh",
+            width: "100%",
+            position: "relative",
+            zIndex: 0,
+            top: 0,
+            background: "#161615",
+          }}
+        />
+        <div
+          className="section-three"
+          style={{
+            height: "50vh",
+            width: "100%",
+            position: "relative",
+            zIndex: 0,
+            top: 0,
+            background: "#161615",
+          }}
+        />
+        <div
+          className="section-four"
           style={{
             height: "100vh",
             width: "100%",
